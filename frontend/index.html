@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="/static/styles.css"> 
 </head>
 <body>
-    <input type="hidden" id="csrf_token" value="{{ csrf_token }}"> 
+    
     <div class="container">
+        <input type="hidden" id="csrf_token" value="{{ csrf_token }}">
         <h1>🧠 Smart Task Analyzer</h1>
         <p>Enter your tasks as a JSON array below and click Analyze to get priority scores.</p>
         
