@@ -52,6 +52,7 @@ function displayResults(sortedTasks) {
 
 
 // MAIN FUNCTION: Called when the 'Analyze Priority' button is clicked
+// MAIN FUNCTION: Called when the 'Analyze Priority' button is clicked
 async function analyzeTasks() {
     const taskInput = document.getElementById('taskInput').value.trim();
     
@@ -66,13 +67,15 @@ async function analyzeTasks() {
         // 1. JSON string ko JavaScript object mein parse karein
         const tasks = JSON.parse(taskInput); 
         
-        // --- START CSRF FIX ---
-        // 1. CSRF Token ki value hidden input field se pakdein
-        const csrfTokenElement = document.getElementById('csrf_token');
+        // --- START CSRF FIX (UPDATED LOGIC) ---
+        // 1. CSRF Token ki value hidden data attribute se pakdein
+        const csrfTokenElement = document.getElementById('csrf_data');
         if (!csrfTokenElement) {
-            throw new Error("CSRF token element not found in the HTML.");
+            // Agar element nahi mila to alert karein ki index.html mein galti hai
+            throw new Error("CSRF token element (ID: csrf_data) not found in the HTML. Check index.html.");
         }
-        const csrfToken = csrfTokenElement.value;
+        // data-token attribute se value uthayein (yeh naya tareeka hai)
+        const csrfToken = csrfTokenElement.getAttribute('data-token'); 
         // --- END CSRF FIX ---
 
         // 2. API ko POST request bhejein
