@@ -66,19 +66,29 @@ async function analyzeTasks() {
         // 1. JSON string ko JavaScript object mein parse karein
         const tasks = JSON.parse(taskInput); 
         
+        // --- START CSRF FIX ---
+        // 1. CSRF Token ki value hidden input field se pakdein
+        const csrfTokenElement = document.getElementById('csrf_token');
+        if (!csrfTokenElement) {
+            throw new Error("CSRF token element not found in the HTML.");
+        }
+        const csrfToken = csrfTokenElement.value;
+        // --- END CSRF FIX ---
+
         // 2. API ko POST request bhejein
         const response = await fetch('/api/tasks/analyze/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken, // <-- RENDER/DJANGO deployment ke liye ZAROORI
             },
             body: JSON.stringify(tasks) // Data ko Django backend mein bhejein
         });
         
-        // Agar response success na ho (e.g., 400 Bad Request)
+        // Agar response success na ho (e.g., 400 Bad Request, 403 Forbidden)
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || 'Server returned an error.');
+            const errorText = await response.text();
+            throw new Error(`Server returned status ${response.status}. Details: ${errorText.substring(0, 100)}...`);
         }
 
         const sortedTasks = await response.json();
@@ -87,7 +97,7 @@ async function analyzeTasks() {
     } catch (error) {
         console.error('Error during analysis:', error);
         document.getElementById('statusMessage').innerText = `Error: ${error.message}. Check console for details.`;
-        alert(`Failed to analyze tasks. Please ensure your JSON format is correct.`);
+        alert(`Failed to analyze tasks. Please ensure your JSON format is correct. Error: ${error.message}`);
     }
 }
 
