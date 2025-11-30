@@ -1,0 +1,24 @@
+### Test POST request to Analyze Endpoint
+POST http://127.0.0.1:8000/api/tasks/analyze/ HTTP/1.1
+Content-Type: application/json
+
+[
+    {
+        "title": "Fix critical bug in landing page",
+        "due_date": "2025-12-01",
+        "importance": 10,
+        "estimated_hours": 1
+    },
+    {
+        "title": "Write quarterly report draft",
+        "due_date": "2025-12-10",
+        "importance": 8,
+        "estimated_hours": 8
+    },
+    {
+        "title": "Review old documentation (Low Priority)",
+        "due_date": "2025-12-25",
+        "importance": 2,
+        "estimated_hours": 3
+    }
+]

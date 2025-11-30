@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Task Analyzer</title>
+    <link rel="stylesheet" href="/static/styles.css"> 
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 Smart Task Analyzer</h1>
+        <p>Enter your tasks as a JSON array below and click Analyze to get priority scores.</p>
+        
+        <div class="input-section">
+            <h2>Task Input (JSON Format)</h2>
+            <textarea id="taskInput" placeholder='[{"title": "Bug Fix", "due_date": "YYYY-MM-DD", "importance": 8, "estimated_hours": 1}, ...]' rows="10"></textarea>
+            
+            <div class="controls">
+                <button onclick="analyzeTasks()">Analyze Priority</button>
+                <div id="suggestion"></div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="results-section">
+            <h2>Prioritized Tasks</h2>
+            <p id="statusMessage">Click 'Analyze Priority' to see the sorted results.</p>
+            <div id="taskList" class="task-list">
+                </div>
+        </div>
+    </div>
+    
+    <script src="/static/script.js"></script>
+</body>
+</html>
